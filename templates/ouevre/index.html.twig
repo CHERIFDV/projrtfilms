@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ouevre index{% endblock %}
+
+{% block body %}
+    <h1>Ouevre index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Nb_parite</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Deleted_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ouevre in ouevres %}
+            <tr>
+                <td>{{ ouevre.id }}</td>
+                <td>{{ ouevre.Titre }}</td>
+                <td>{{ ouevre.nbParite }}</td>
+                <td>{{ ouevre.createdAt ? ouevre.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ouevre.updatedAt ? ouevre.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ouevre.deletedAt ? ouevre.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_ouevre_show', {'id': ouevre.id}) }}">show</a>
+                    <a href="{{ path('app_ouevre_edit', {'id': ouevre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ouevre_new') }}">Create new</a>
+{% endblock %}

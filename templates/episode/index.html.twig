@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Episode index{% endblock %}
+
+{% block body %}
+    <h1>Episode index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Duree</th>
+                <th>Resume</th>
+                <th>Realise</th>
+                <th>Url</th>
+                <th>Nb_view</th>
+                <th>Langue</th>
+                <th>Numero_episode</th>
+                <th>Image</th>
+                <th>Nb_commenter</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Deleted_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for episode in episodes %}
+            <tr>
+                <td>{{ episode.id }}</td>
+                <td>{{ episode.Titre }}</td>
+                <td>{{ episode.Duree ? episode.Duree|date('H:i:s') : '' }}</td>
+                <td>{{ episode.Resume }}</td>
+                <td>{{ episode.Realise }}</td>
+                <td>{{ episode.url }}</td>
+                <td>{{ episode.NbView }}</td>
+                <td>{{ episode.langue }}</td>
+                <td>{{ episode.NumeroEpisode }}</td>
+                <td>{{ episode.image }}</td>
+                <td>{{ episode.nbCommenter }}</td>
+                <td>{{ episode.createdAt ? episode.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ episode.updatedAt ? episode.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ episode.deletedAt ? episode.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_episode_show', {'id': episode.id}) }}">show</a>
+                    <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_episode_new') }}">Create new</a>
+{% endblock %}

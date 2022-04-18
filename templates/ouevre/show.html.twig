@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ouevre{% endblock %}
+
+{% block body %}
+    <h1>Ouevre</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ouevre.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ ouevre.Titre }}</td>
+            </tr>
+            <tr>
+                <th>Nb_parite</th>
+                <td>{{ ouevre.nbParite }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ ouevre.createdAt ? ouevre.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ ouevre.updatedAt ? ouevre.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Deleted_at</th>
+                <td>{{ ouevre.deletedAt ? ouevre.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ouevre_index') }}">back to list</a>
+
+    <a href="{{ path('app_ouevre_edit', {'id': ouevre.id}) }}">edit</a>
+
+    {{ include('ouevre/_delete_form.html.twig') }}
+{% endblock %}
