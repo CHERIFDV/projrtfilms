@@ -95,6 +95,22 @@ class EpisodeController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+             ///////// add episode in /public/episod/
+        $urls = $form->get('url')->getData();
+        // On boucle sur les images
+        foreach($urls as $url){
+        // On génère un nouveau nom de fichier
+        $fichier = md5(uniqid()).'.'.$url->guessExtension();
+        // On copie le fichier dans le dossier uploads
+        $url->move(
+            $this->getParameter('brochures_directory_episode'),
+            $fichier
+        );}
+
+        $episode->setUrl($fichier);
+        
             $episode->setUpdatedAt(new \DateTimeImmutable());
             $episodeRepository->add($episode);
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
