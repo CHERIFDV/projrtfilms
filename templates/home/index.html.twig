@@ -99,21 +99,29 @@
                             </div>
                         </div>
                         <div class="row">
+                          {% for episode in episodes %}
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/f1.jpg">
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                    <div class="product__item__pic set-bg" data-setbg="/imgouvevre/{{episode.image}}">
+                                        <div class="comment"><i class="fa fa-comments"></i> {{episode.nbCommenter}}</div>
+                                        <div class="view"><i class="fa fa-eye"></i> {{episode.NbView}}</div>
                                     </div>
                                     <div class="product__item__text">
                                         <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
+                                          {% for categorie in episode.categories %}
+                                            <li>{{categorie.Categorie}}</li>
+                                           
+                                              {% endfor %}
                                         </ul>
-                                        <h5><a href="#"> Spider-Man: No Way Home (2021) </a></h5>
+                                        <h5><a href="#"> {{episode.Titre}} </a></h5>
                                     </div>
                                 </div>
                             </div>
+                             {% else %}
+                                    <tr>
+                                        <td colspan="15">no records found</td>
+                                     </tr>
+                               {% endfor %}
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="img/popular/f2.jpg">

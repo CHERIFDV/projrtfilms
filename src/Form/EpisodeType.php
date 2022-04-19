@@ -47,7 +47,6 @@ class EpisodeType extends AbstractType
             ])
             ->add('categories',EntityType::class, [
                 'class' => Categorie::class,
-                'choice_label' => 'displayName',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                     ->where('c.deleted_at IS  NULL') ;
