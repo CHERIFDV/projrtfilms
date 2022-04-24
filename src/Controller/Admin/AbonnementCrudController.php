@@ -31,12 +31,12 @@ class AbonnementCrudController extends AbstractCrudController
         $deleted_at = DateTimeField::new('deleted_at');
 
                     if(Crud::PAGE_NEW === $pageName){
-                        yield $created_at->setFormTypeOption('data', new \DateTimeImmutable());
-                        yield $updated_at->setFormTypeOption('disabled', true);
+                       /// yield $created_at->setFormTypeOption('data', new \DateTimeImmutable());
+                       // yield $updated_at->setFormTypeOption('disabled', true);
                     }else{
                     if (Crud::PAGE_EDIT === $pageName) {
-                        yield $created_at->setFormTypeOption('disabled', true);
-                        yield $updated_at->setFormTypeOption('data', new \DateTimeImmutable());
+                       // yield $created_at->setFormTypeOption('disabled', true);
+                        ///yield $updated_at->setFormTypeOption('data', new \DateTimeImmutable());
                     } else {
                         yield $created_at;
                         yield $updated_at;

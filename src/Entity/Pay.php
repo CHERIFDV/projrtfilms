@@ -31,9 +31,10 @@ class Pay
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Gedmo\Mapping\Annotation\Timestampable(on="create")
+     * @Doctrine\ORM\Mapping\Column(type="datetime")
      */
-    private $created_at;
-
+    private $created_at; 
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
@@ -42,8 +43,11 @@ class Pay
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Gedmo\Mapping\Annotation\Timestampable(on="update")
+     * @Doctrine\ORM\Mapping\Column(type="datetime")
      */
     private $updated_at;
+
 
     public function __construct()
     {
