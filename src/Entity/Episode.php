@@ -50,8 +50,6 @@ class Episode
      */
     private $Nb_view;
 
-   
-
     /**
      * @ORM\Column(type="string", length=25)
      */

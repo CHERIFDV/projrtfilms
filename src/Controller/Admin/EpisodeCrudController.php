@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Controller\Admin;
+
+use App\Entity\Ouevre;
+use App\Entity\Episode;
+use App\Entity\Categorie;
+use Doctrine\ORM\QueryBuilder;
+use Monolog\DateTimeImmutable;
+use App\Repository\EpisodeRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+
+class EpisodeCrudController extends AbstractCrudController
+{
+    public static function getEntityFqcn(): string
+    {
+        return Episode::class;
+    }
+
+    
+    public function configureFields(string $pageName): iterable
+    {
+
+        yield TextField::new('Titre');
+        yield TimeField::new('Duree');
+        yield TextField::new('Resume');
+        yield TextField::new('Realise');
+        yield ImageField::new('url') ->setBasePath('public/episode/')
+        ->setUploadDir('public/episode/');
+        yield NumberField::new('Nb_view');
+        yield TextField::new('langue');
+        yield NumberField::new('Numero_episode');
+        yield TextField::new('langue');
+        yield ImageField::new('image') 
+        ->setBasePath('public/imgouvevre/')
+        ->setUploadDir('public/imgouvevre/');
+        yield NumberField::new('nb_commenter');
+        yield AssociationField::new('categories')->setQueryBuilder(
+            fn (QueryBuilder $queryBuilder) => $queryBuilder->getEntityManager()->getRepository(Categorie::class)->findBy(array('deleted_at' => null))
+        );
+        yield AssociationField::new('Id_ouevre')->setQueryBuilder(
+            fn (QueryBuilder $queryBuilder) => $queryBuilder->getEntityManager()->getRepository(Ouevre::class)->findBy(array('deleted_at' => null))
+        );
+       
+
+
+
+        
+        $created_at = DateTimeField::new('created_at');
+        $updated_at = DateTimeField::new('updated_at');
+        $deleted_at = DateTimeField::new('deleted_at');
+
+
+        if(Crud::PAGE_NEW === $pageName){
+            yield $created_at->setFormTypeOption('data', new \DateTimeImmutable());
+            yield $updated_at->setFormTypeOption('disabled', true);
+        }else{
+        if (Crud::PAGE_EDIT === $pageName) {
+            yield $created_at->setFormTypeOption('disabled', true);
+            yield $updated_at->setFormTypeOption('data', new \DateTimeImmutable());
+        } else {
+            yield $created_at;
+            yield $updated_at;
+            yield $deleted_at;
+        }}
+    }
+    
+}

@@ -15,7 +15,7 @@ class WatchingController extends AbstractController
     public function index(EpisodeRepository $episodeRepository,int $id): Response
     {
         return $this->render('watching/anime-watching.html.twig', [
-            'controller_name' => 'WatchingController','episode' => $episodeRepository->findBy(array('deleted_at' => null,"id"=>$id))[0]
+            'controller_name' => 'WatchingController','episode' => $episodeRepository->findOneBy(array('deleted_at' => null,"id"=>$id))
         ]);
     }
 }
