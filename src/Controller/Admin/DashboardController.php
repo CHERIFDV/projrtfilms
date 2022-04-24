@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -22,7 +23,8 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        //return parent::index();
+        return $this->render('admin/admin.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -32,15 +34,16 @@ class DashboardController extends AbstractDashboardController
     }
 
     public function configureMenuItems(): iterable
+    
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Abonnement', 'fas fa-Abonnement', Abonnement::class);
-        yield MenuItem::linkToCrud('Episode', 'fas fa-Episode', Episode::class);
-        yield MenuItem::linkToCrud('Acteur', 'fas fa-Acteur', Acteur::class);
-        yield MenuItem::linkToCrud('Categorie', 'fas fa-Categorie', Categorie::class);
-        yield MenuItem::linkToCrud('Ouevre', 'fas fa-Ouevre', Ouevre::class);
-        yield MenuItem::linkToCrud('Pay', 'fas fa-Pay', Pay::class);
-        yield MenuItem::linkToCrud('Role', 'fas fa-Role', Role::class);
+        yield MenuItem::linkToUrl('Dashboard', 'fa fa-home','/');
+        yield MenuItem::linkToCrud('Abonnement', 'fa fa-award', Abonnement::class);
+        yield MenuItem::linkToCrud('Episode', 'fa fa-film', Episode::class);
+        yield MenuItem::linkToCrud('Acteur', 'fa fa-eye', Acteur::class);
+        yield MenuItem::linkToCrud('Categorie', 'fa fa-cubes', Categorie::class);
+        yield MenuItem::linkToCrud('Ouevre', 'fa fa-desktop', Ouevre::class);
+        yield MenuItem::linkToCrud('Pay', 'fa fa-flag', Pay::class);
+        yield MenuItem::linkToCrud('Role', 'fa fa-blind', Role::class);
 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }

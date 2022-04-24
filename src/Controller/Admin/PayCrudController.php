@@ -18,7 +18,7 @@ class PayCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('nom_de_role');
+        yield TextField::new('nom');
         
        
         $created_at = DateTimeField::new('created_at');

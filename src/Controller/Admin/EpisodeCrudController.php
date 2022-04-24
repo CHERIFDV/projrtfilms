@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -32,7 +33,7 @@ class EpisodeCrudController extends AbstractCrudController
 
         yield TextField::new('Titre');
         yield TimeField::new('Duree');
-        yield TextField::new('Resume');
+        yield TextEditorField::new('Resume');
         yield TextField::new('Realise');
         yield ImageField::new('url') ->setBasePath('public/episode/')
         ->setUploadDir('public/episode/');
