@@ -35,14 +35,14 @@ class EpisodeCrudController extends AbstractCrudController
         yield TimeField::new('Duree');
         yield TextEditorField::new('Resume');
         yield TextField::new('Realise');
-        yield ImageField::new('url') ->setBasePath('public/episode/')
+        yield ImageField::new('url') ->setBasePath('episode/')
         ->setUploadDir('public/episode/');
         yield NumberField::new('Nb_view');
         yield TextField::new('langue');
         yield NumberField::new('Numero_episode');
         yield TextField::new('langue');
         yield ImageField::new('image') 
-        ->setBasePath('public/imgouvevre/')
+        ->setBasePath('imgouvevre/')
         ->setUploadDir('public/imgouvevre/');
         yield NumberField::new('nb_commenter');
         yield AssociationField::new('categories')->setQueryBuilder(

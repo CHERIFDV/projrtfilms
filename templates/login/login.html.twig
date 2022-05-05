@@ -50,15 +50,25 @@
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Login</h3>
-                        <form action="#">
+                        <form method="post">
+                            {% if error %}
+                               <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+
+                            {% if app.user %}
+                                <div class="mb-3">
+                                       You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                </div>
+                            {% endif %}
                             <div class="input__item">
-                                <input type="text" placeholder="Email address">
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Password">
+                                <input  type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                                 <span class="icon_lock"></span>
                             </div>
+                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
                             <button type="submit" class="site-btn">Login Now</button>
                         </form>
                         <a href="#" class="forget_pass">Forgot Your Password?</a>

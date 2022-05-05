@@ -38,7 +38,14 @@
                 <div class="col-lg-2">
                     <div class="header__right">
                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="{{ path('app_login')}}"><span class="icon_profile"></span></a>
+                        
+                        {% if app.user %}
+                               <a>
+                                       <span class="icon_profile"></span> {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                              </a>
+                                {% else %}
+                                <a href="{{ path('app_login')}}"><span class="icon_profile"></span></a>
+                            {% endif %}
                     </div>
                 </div>
             </div>

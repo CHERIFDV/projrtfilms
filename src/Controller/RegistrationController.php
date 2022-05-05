@@ -37,6 +37,21 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           ////////// add image dans /public/imgouvevre
+        $images = $form->get('image')->getData();
+        // On boucle sur les images
+        foreach($images as $image){
+        // On génère un nouveau nom de fichier
+        $fichier = md5(uniqid()).'.'.$image->guessExtension();
+        // On copie le fichier dans le dossier uploads
+        $image->move(
+            $this->getParameter('brochures_directory_image'),
+            $fichier
+        );}
+        $user->setImage($fichier);
+
+
+
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
