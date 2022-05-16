@@ -99,7 +99,7 @@
                         <form method="post" action="/commenter/new">
                             <textarea placeholder="Your Comment" name="commenter"></textarea>
                            <input type="hidden" name="id_episode" value={{ episode.id }}>
-                           <input type="hidden" name="id_user" value={{ app.user.id }}>
+                           <input type="hidden" name="id_user" value={% if  app.user %}{{app.user.id }}{% endif %}>
                             <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
                         </form>
                     </div>

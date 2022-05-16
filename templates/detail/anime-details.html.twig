@@ -15,18 +15,22 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/plyr.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/elegant-icons.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/plyr.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/nice-select.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/slicknav.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/style.css')}}" type="text/css">
 </head>
 
 <body>
    {% include('navbar/navbar.html.twig') %}
+
+
+
+   {{dump(episode.avis)}}
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
@@ -49,7 +53,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/k2RJZ6D7h9ca7ZSta6djoheCUiR.jpg">
+                        <div class="anime__details__pic set-bg" data-setbg="/imgouvevre/{{episode.image}}">
                             <div class="comment"><i class="fa fa-comments"></i> 11</div>
                             <div class="view"><i class="fa fa-eye"></i> 9141</div>
                         </div>
@@ -57,20 +61,31 @@
                     <div class="col-lg-9">
                         <div class="anime__details__text">
                             <div class="anime__details__title">
-                                <h3>Sonic 2, le film</h3>
+                                <h3>{{episode.Titre}}</h3>
                                 <span>PG 08/04/2022 (US) Action, Science-Fiction, Comédie, Familial 2h 2m</span>
                             </div>
                             <div class="anime__details__rating">
                                 <div class="rating">
+                                 {% set myVal  = 0 %}
+                                 {% set myVot  = 0 %}
+                                {% for avi in episode.avis %}
+                                 {% set myVal  = myVal  + 1 %}
+                                 {% set myVot  = avi.Nbetoil + myVot  %}
+
+                                {% endfor %}
+
+                                {% set Vot  = (myVot / myVal) %}
+
+                                 {% for i in 1.. Vot   %}
                                     <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
+                                {% endfor %}
+                                {% if 1 == 1  %}
                                     <a href="#"><i class="fa fa-star-half-o"></i></a>
+                                    {% endif %}
                                 </div>
-                                <span>1.029 Votes</span>
+                                <span>{{ Vot }} Votes</span>
                             </div>
-                            <p>Bien installé dans la petite ville de Green Hills, Sonic veut maintenant prouver qu’il a l’étoffe d' un véritable héros. Un défi de taille se présente à lui quand le Dr Robotnik refait son apparition. Accompagné de son nouveau complice Knuckles, ils sont en quête d’une émeraude dont le pouvoir permettrait de détruire l’humanité toute entière. Pour s’assurer que l’émeraude ne tombe entre de mauvaises mains, Sonic fait équipe avec Tails. Commence alors un voyage à travers le monde, plein de péripéties.</p>
+                            <p>{{ episode.Resume }}</p>
                             <div class="anime__details__widget">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
@@ -86,16 +101,16 @@
                                         <ul>
                                             <li><span>Scores:</span> 7.31 / 1,515</li>
                                             <li><span>Rating:</span> 8.5 / 161 times</li>
-                                            <li><span>Duration:</span> 24 min/ep</li>
+                                            <li><span>Duration:</span> {{episode.Duree|date("H", false)*60+episode.Duree|date("i", false)}} min/ep</li>
                                             <li><span>Quality:</span> HD</li>
-                                            <li><span>Views:</span> 131,541</li>
+                                            <li><span>Views:</span> {{episode.NbView}}</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-                                <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
-                                <a href="#" class="watch-btn"><span>Watch Now</span> <i
+                                <a href="/favorise/new/{{episode.id}}/{% if  app.user %}{{app.user.id }}{% endif %}" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
+                                <a href="/watching/{{episode.id}}" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
                             </div>
@@ -108,71 +123,28 @@
                             <div class="section-title">
                                 <h5>Reviews</h5>
                             </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-1.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
+                           {% for commenter in episode.commenters %}
+                        <div class="anime__review__item">
+                            <div class="anime__review__item__pic">
+                                <img src="/users/{{commenter.user.image}}" alt="">
                             </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-2.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
+                            <div class="anime__review__item__text">
+                                <h6> <span>1 Hour ago</span></h6>
+                                <p>{{commenter.message}}</p>
                             </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-3.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-4.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                                    <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-5.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                                    <p>Finally it came out ages ago</p>
-                                </div>
-                            </div>
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="img/anime/review-6.jpg" alt="">
-                                </div>
-                                <div class="anime__review__item__text">
-                                    <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                                    <p>Where is the episode 15 ? Slow update! Tch</p>
-                                </div>
-                            </div>
+                        </div>
+                        {% endfor %}
                         </div>
                         <div class="anime__details__form">
                             <div class="section-title">
                                 <h5>Your Comment</h5>
                             </div>
-                            <form action="#">
-                                <textarea placeholder="Your Comment"></textarea>
-                                <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-                            </form>
+                            <form method="post" action="/commenter/new">
+                            <textarea placeholder="Your Comment" name="commenter"></textarea>
+                           <input type="hidden" name="id_episode" value={{ episode.id }}>
+                           <input type="hidden" name="id_user" value={% if  app.user %}{{app.user.id }}{% endif %}>
+                            <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                        </form>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -222,15 +194,15 @@
         </div>
         <!-- Search model end -->
 
-        <!-- Js Plugins -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/player.js"></script>
-        <script src="js/jquery.nice-select.min.js"></script>
-        <script src="js/mixitup.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/main.js"></script>
+       <!-- Js Plugins -->
+    <script src="{{ asset('js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/player.js')}}"></script>
+    <script src="{{ asset('js/jquery.nice-select.min.js')}}"></script>
+    <script src="{{ asset('js/mixitup.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.slicknav.js')}}"></script>
+    <script src="{{ asset('js/owl.carousel.min.js')}}"></script>
+    <script src="{{ asset('js/main.js')}}"></script>
 
     </body>
 

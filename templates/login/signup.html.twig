@@ -50,23 +50,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="login__form">
+                    <div class="input__item" style="color:white">
                         <h3>Sign Up</h3>
-                        <form action="#">
-                            <div class="input__item">
-                                <input type="text" placeholder="Email address">
-                                <span class="icon_mail"></span>
-                            </div>
-                            <div class="input__item">
-                                <input type="text" placeholder="Your Name">
-                                <span class="icon_profile"></span>
-                            </div>
-                            <div class="input__item">
-                                <input type="text" placeholder="Password">
-                                <span class="icon_lock"></span>
-                            </div>
-                            <button type="submit" class="site-btn">Login Now</button>
-                        </form>
+                    {% block body %}
+                           {% for flash_error in app.flashes('verify_email_error') %}
+                       <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                              {% endfor %}
+
+                    <h1>Register</h1>
+
+                      {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.email) }}
+                       {{ form_row(registrationForm.plainPassword, {
+                      label: 'Password'
+                       }) }}
+      
+
+       
+    {{ form_end(registrationForm) }}
+{% endblock %}
                         <h5>Already have an account? <a href="{{ path('app_login')}}">Log In!</a></h5>
                     </div>
                 </div>

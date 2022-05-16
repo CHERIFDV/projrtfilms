@@ -23,9 +23,9 @@ class Favorie
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ouevre::class, inversedBy="favories")
+     * @ORM\ManyToOne(targetEntity=Episode::class, inversedBy="favories")
      */
-    private $ouevre;
+    private $Episode;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -64,14 +64,14 @@ class Favorie
         return $this;
     }
 
-    public function getOuevre(): ?Ouevre
+    public function getEpisode(): ?Episode
     {
-        return $this->ouevre;
+        return $this->Episode;
     }
 
-    public function setOuevre(?Ouevre $ouevre): self
+    public function setEpisode(?Episode $Episode): self
     {
-        $this->ouevre = $ouevre;
+        $this->Episode = $Episode;
 
         return $this;
     }
