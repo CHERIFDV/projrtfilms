@@ -6,6 +6,7 @@ use App\Entity\Acteur;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -22,7 +23,16 @@ class ActeurCrudController extends AbstractCrudController
         yield TextField::new('nom');
         yield TextField::new('prenom');
         yield EmailField::new('email');
-       
+        if (Crud::PAGE_NEW === $pageName||Crud::PAGE_INDEX === $pageName) {
+            yield ImageField::new('image')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+            ->setBasePath('acteur/')
+            ->setUploadDir('public/acteur/');
+     } elseif (Crud::PAGE_EDIT=== $pageName) {
+        yield ImageField::new('image')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+        ->setBasePath('acteur/')
+        ->setUploadDir('public/acteur/')->setSortable(false)
+        ->setFormTypeOption('required' ,false);
+     }
         
         $created_at = DateTimeField::new('created_at');
         $updated_at = DateTimeField::new('updated_at');

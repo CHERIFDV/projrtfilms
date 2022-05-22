@@ -7,14 +7,17 @@ use App\Entity\Episode;
 use App\Entity\Categorie;
 use Doctrine\ORM\QueryBuilder;
 use Monolog\DateTimeImmutable;
+use App\Admin\Field\VichImageField;
 use App\Repository\EpisodeRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -30,21 +33,34 @@ class EpisodeCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
-
+     
+       
         yield TextField::new('Titre');
         yield TimeField::new('Duree');
-        yield TextEditorField::new('Resume');
+        yield TextareaField::new('Resume');
         yield TextField::new('Realise');
-        yield ImageField::new('url') ->setBasePath('episode/')
-        ->setUploadDir('public/episode/');
+        if (Crud::PAGE_NEW === $pageName||Crud::PAGE_INDEX === $pageName) {
+                yield ImageField::new('url', 'url')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+                ->setBasePath('episode/') ->setUploadDir('public/episode/');
+                yield ImageField::new('image')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+                ->setBasePath('imgouvevre/')
+                ->setUploadDir('public/imgouvevre/');
+         } elseif (Crud::PAGE_EDIT=== $pageName) {
+            yield ImageField::new('url', 'url')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+            ->setBasePath('episode/')->setUploadDir('public/episode/')->setSortable(false)
+            ->setFormTypeOption('required' ,false);
+            yield ImageField::new('image')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+            ->setBasePath('imgouvevre/')
+            ->setUploadDir('public/imgouvevre/')->setSortable(false)
+            ->setFormTypeOption('required' ,false);
+         }
         yield NumberField::new('Nb_view');
         yield TextField::new('langue');
         yield NumberField::new('Numero_episode');
         yield TextField::new('langue');
-        yield ImageField::new('image') 
-        ->setBasePath('imgouvevre/')
-        ->setUploadDir('public/imgouvevre/');
+       
         yield NumberField::new('nb_commenter');
+        
         yield AssociationField::new('categories')->setQueryBuilder(
             fn (QueryBuilder $queryBuilder) => $queryBuilder->getEntityManager()->getRepository(Categorie::class)->findBy(array('deleted_at' => null))
         );
@@ -73,6 +89,7 @@ class EpisodeCrudController extends AbstractCrudController
             yield $updated_at;
             yield $deleted_at;
         }}
+      
     }
 
 

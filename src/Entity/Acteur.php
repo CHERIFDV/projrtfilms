@@ -56,6 +56,11 @@ class Acteur
      */
     private $deleted_at;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,6 +146,18 @@ class Acteur
     public function setDeletedAt(?\DateTimeImmutable $deleted_at): self
     {
         $this->deleted_at = $deleted_at;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

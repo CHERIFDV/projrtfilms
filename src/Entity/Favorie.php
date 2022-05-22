@@ -22,11 +22,7 @@ class Favorie
      */
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Episode::class, inversedBy="favories")
-     */
-    private $Episode;
-
+   
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Mapping\Annotation\Timestampable(on="create")
@@ -47,6 +43,11 @@ class Favorie
      */
     private $deleted_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Episode::class, inversedBy="favories")
+     */
+    private $Episode;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,17 +65,7 @@ class Favorie
         return $this;
     }
 
-    public function getEpisode(): ?Episode
-    {
-        return $this->Episode;
-    }
-
-    public function setEpisode(?Episode $Episode): self
-    {
-        $this->Episode = $Episode;
-
-        return $this;
-    }
+    
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -108,6 +99,18 @@ class Favorie
     public function setDeletedAt(?\DateTimeImmutable $deleted_at): self
     {
         $this->deleted_at = $deleted_at;
+
+        return $this;
+    }
+
+    public function getEpisode(): ?Episode
+    {
+        return $this->Episode;
+    }
+
+    public function setEpisode(?Episode $Episode): self
+    {
+        $this->Episode = $Episode;
 
         return $this;
     }

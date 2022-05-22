@@ -115,11 +115,24 @@ class Episode
      */
     private $deleted_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favorie::class, mappedBy="Episode")
+     */
+    private $favories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="episodes")
+     */
+    private $Role;
+    
+
     public function __construct()
     {   
         $this->categories = new ArrayCollection();
         $this->avis = new ArrayCollection();
         $this->commenters = new ArrayCollection();
+        $this->favories = new ArrayCollection();
+        $this->Role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -394,6 +407,60 @@ class Episode
     public function setDeletedAt(?\DateTimeImmutable $deleted_at): self
     {
         $this->deleted_at = $deleted_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favorie>
+     */
+    public function getFavories(): Collection
+    {
+        return $this->favories;
+    }
+
+    public function addFavory(Favorie $favory): self
+    {
+        if (!$this->favories->contains($favory)) {
+            $this->favories[] = $favory;
+            $favory->setEpisode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavory(Favorie $favory): self
+    {
+        if ($this->favories->removeElement($favory)) {
+            // set the owning side to null (unless already changed)
+            if ($favory->getEpisode() === $this) {
+                $favory->setEpisode(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getRole(): Collection
+    {
+        return $this->Role;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->Role->contains($role)) {
+            $this->Role[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        $this->Role->removeElement($role);
 
         return $this;
     }

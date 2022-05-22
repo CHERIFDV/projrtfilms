@@ -33,12 +33,6 @@ class Ouevre
      * @ORM\OneToMany(targetEntity=Episode::class, mappedBy="Id_ouevre")
      */
     private $episodes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Favorie::class, mappedBy="ouevre")
-     */
-    private $favories;
-
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Mapping\Annotation\Timestampable(on="create")

@@ -18,7 +18,7 @@ class CategorieCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('nom');
+        yield TextField::new('Categorie');
        
         $created_at = DateTimeField::new('created_at');
         $updated_at = DateTimeField::new('updated_at');

@@ -49,9 +49,15 @@ class Role
      */
     private $deleted_at;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Episode::class, mappedBy="Role")
+     */
+    private $episodes;
+
     public function __construct()
     {
         $this->acteur = new ArrayCollection();
+        $this->episodes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,6 +139,33 @@ class Role
     public function setDeletedAt(?\DateTimeImmutable $deleted_at): self
     {
         $this->deleted_at = $deleted_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Episode>
+     */
+    public function getEpisodes(): Collection
+    {
+        return $this->episodes;
+    }
+
+    public function addEpisode(Episode $episode): self
+    {
+        if (!$this->episodes->contains($episode)) {
+            $this->episodes[] = $episode;
+            $episode->addRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEpisode(Episode $episode): self
+    {
+        if ($this->episodes->removeElement($episode)) {
+            $episode->removeRole($this);
+        }
 
         return $this;
     }
