@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActeurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,10 +34,7 @@ class Acteur
      */
     private $email;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="acteur")
-     */
-    private $role;
+    
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -60,6 +59,16 @@ class Acteur
      * @ORM\Column(type="text")
      */
     private $image;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="acteur")
+     */
+    private $roles;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -102,17 +111,7 @@ class Acteur
         return $this;
     }
 
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
+   
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -158,6 +157,33 @@ class Acteur
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+            $role->addActeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->roles->removeElement($role)) {
+            $role->removeActeur($this);
+        }
 
         return $this;
     }

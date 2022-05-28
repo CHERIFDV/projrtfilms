@@ -24,10 +24,7 @@ class Role
      */
     private $nom_de_role;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Acteur::class, mappedBy="role")
-     */
-    private $acteur;
+  
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -54,6 +51,11 @@ class Role
      */
     private $episodes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Acteur::class, inversedBy="roles")
+     */
+    private $acteur;
+
     public function __construct()
     {
         $this->acteur = new ArrayCollection();
@@ -77,35 +79,6 @@ class Role
         return $this;
     }
 
-    /**
-     * @return Collection<int, Acteur>
-     */
-    public function getActeur(): Collection
-    {
-        return $this->acteur;
-    }
-
-    public function addActeur(Acteur $acteur): self
-    {
-        if (!$this->acteur->contains($acteur)) {
-            $this->acteur[] = $acteur;
-            $acteur->setRole($this);
-        }
-
-        return $this;
-    }
-
-    public function removeActeur(Acteur $acteur): self
-    {
-        if ($this->acteur->removeElement($acteur)) {
-            // set the owning side to null (unless already changed)
-            if ($acteur->getRole() === $this) {
-                $acteur->setRole(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -166,6 +139,30 @@ class Role
         if ($this->episodes->removeElement($episode)) {
             $episode->removeRole($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Acteur>
+     */
+    public function getActeur(): Collection
+    {
+        return $this->acteur;
+    }
+
+    public function addActeur(Acteur $acteur): self
+    {
+        if (!$this->acteur->contains($acteur)) {
+            $this->acteur[] = $acteur;
+        }
+
+        return $this;
+    }
+
+    public function removeActeur(Acteur $acteur): self
+    {
+        $this->acteur->removeElement($acteur);
 
         return $this;
     }

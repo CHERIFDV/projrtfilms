@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Ouevre;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -21,7 +22,16 @@ class OuevreCrudController extends AbstractCrudController
     {
         yield TextField::new('Titre');
         yield NumberField::new('nb_parite');
-       
+        if (Crud::PAGE_NEW === $pageName||Crud::PAGE_INDEX === $pageName) {
+            yield ImageField::new('image')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+            ->setBasePath('/imgouvevre')
+            ->setUploadDir('public/imgouvevre/');
+     } elseif (Crud::PAGE_EDIT=== $pageName) {
+        yield ImageField::new('image')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
+        ->setBasePath('imgouvevre/')
+        ->setUploadDir('public/imgouvevre/')->setSortable(false)
+        ->setFormTypeOption('required' ,false);
+     }
         $created_at = DateTimeField::new('created_at');
         $updated_at = DateTimeField::new('updated_at');
         $deleted_at = DateTimeField::new('deleted_at');
