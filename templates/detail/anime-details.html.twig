@@ -72,9 +72,12 @@
                                  {% set myVot  = avi.Nbetoil + myVot  %}
 
                                 {% endfor %}
-
-                                {% set Vot  = (myVot / myVal) %}
-
+                                
+                                {%  if myVot > 0 %} 
+                                {% set Vot  = (myVot / myVal) %}  
+                                {%  else  %}
+                                {% set Vot  = 0 %}
+                                {%  endif  %}
                                  {% for i in 1.. Vot   %}
                                     <a href="#"><i class="fa fa-star"></i></a>
                                 {% endfor %}
@@ -108,7 +111,7 @@
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-                                <a href="/favorise/new/{{episode.id}}/{% if  app.user %}{{app.user.id }}{% endif %}" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
+                                <a href="/favorise/new/{{episode.id}}" {% if Liked  %} style="background: white;color: red;" {% endif %}class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
                                 <a href="/watching/{{episode.id}}" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>

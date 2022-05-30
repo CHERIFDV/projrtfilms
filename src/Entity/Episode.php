@@ -31,7 +31,7 @@ class Episode
     private $Duree;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", length=255)
      */
     private $Resume;
 
@@ -126,6 +126,8 @@ class Episode
     private $roles;
 
     
+
+    
     
 
     public function __construct()
@@ -136,6 +138,7 @@ class Episode
         $this->favories = new ArrayCollection();
         $this->Role = new ArrayCollection();
         $this->roles = new ArrayCollection();
+        
     }
 
     public function getId(): ?int
@@ -474,6 +477,7 @@ class Episode
         return $this;
     }
 
+ 
    
 
   

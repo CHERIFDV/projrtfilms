@@ -61,7 +61,8 @@
                             <h5>List Name</h5>
                         </div>
                         {% set myVal  = 0 %}
-                         {% for episode in episode.getIdOuevre().getEpisodes() %}
+
+                         {% for episode in episode.getIdOuevre().getEpisodes()|sort((a,b) => a.getNumeroEpisode() <=> b.getNumeroEpisode()) %}
                          {% set myVal  = myVal  + 1 %}
                          <a href="/watching/{{episode.id}}">EP{{ myVal  }} </a>
                          {% endfor %}

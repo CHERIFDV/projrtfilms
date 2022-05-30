@@ -37,7 +37,16 @@ class EpisodeCrudController extends AbstractCrudController
        
         yield TextField::new('Titre');
         yield TimeField::new('Duree');
-        yield TextareaField::new('Resume');
+
+        if (Crud::PAGE_INDEX === $pageName) {
+            yield TextareaField::new('Resume')->onlyOnDetail();
+        } else {
+            yield TextareaField::new('Resume');
+        }
+
+
+
+
         yield TextField::new('Realise');
         if (Crud::PAGE_NEW === $pageName||Crud::PAGE_INDEX === $pageName) {
                 yield ImageField::new('url', 'url')->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
