@@ -121,9 +121,11 @@ class Episode
     private $favories;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="episodes")
+     * @ORM\OneToMany(targetEntity=Role::class, mappedBy="Episode")
      */
-    private $Role;
+    private $roles;
+
+    
     
 
     public function __construct()
@@ -133,6 +135,7 @@ class Episode
         $this->commenters = new ArrayCollection();
         $this->favories = new ArrayCollection();
         $this->Role = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -444,15 +447,16 @@ class Episode
     /**
      * @return Collection<int, Role>
      */
-    public function getRole(): Collection
+    public function getRoles(): Collection
     {
-        return $this->Role;
+        return $this->roles;
     }
 
     public function addRole(Role $role): self
     {
-        if (!$this->Role->contains($role)) {
-            $this->Role[] = $role;
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+            $role->setEpisode($this);
         }
 
         return $this;
@@ -460,10 +464,18 @@ class Episode
 
     public function removeRole(Role $role): self
     {
-        $this->Role->removeElement($role);
+        if ($this->roles->removeElement($role)) {
+            // set the owning side to null (unless already changed)
+            if ($role->getEpisode() === $this) {
+                $role->setEpisode(null);
+            }
+        }
 
         return $this;
     }
 
+   
+
+  
     
 }

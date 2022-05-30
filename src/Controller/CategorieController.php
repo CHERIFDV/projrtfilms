@@ -100,37 +100,46 @@ class CategorieController extends AbstractController
         $search=$request->get('search');
         $entityManager = $this->getDoctrine()->getManager();
         $qb = $entityManager->createQueryBuilder();
-        $episode = $qb->select('n')->from('App\Entity\Episode', 'n')->leftJoin('n.categories', 'c')->leftJoin('n.Id_ouevre', 'o')->leftJoin('n.Role', 'r')->leftJoin('r.acteur', 'a')
+        $episode = $qb->select('n')->from('App\Entity\Episode', 'n')->leftJoin('n.categories', 'c')->leftJoin('n.Id_ouevre', 'o')->leftJoin('n.roles', 'r')->leftJoin('r.Acteurs', 'a')
           ->where( 
                    $qb->expr()->like('n.Titre', $qb->expr()->literal('%' . $request->get('Titre') . '%')),
                    $qb->expr()->like('n.langue', $qb->expr()->literal('%' . $request->get('Langue') . '%')),
                    $qb->expr()->like('n.Resume', $qb->expr()->literal('%' . $request->get('Resume'). '%')),
                    $qb->expr()->like('o.Titre', $qb->expr()->literal('%' . $request->get('Ouevre'). '%')),
-                   /*/$qb->expr()->orX(
+                   $qb->expr()->orX(
                         $qb->expr()->like('a.nom', $qb->expr()->literal('%' . $request->get('Acteur') . '%')),
                         $qb->expr()->like('a.prenom', $qb->expr()->literal('%' . $request->get('Acteur') . '%')),
                         )
-                   ,/*/
+                   ,
                    $retVal = ($request->get('categorie')!= NULL) ?  $qb->expr()->eq('c.id', $request->get('categorie')) : NULL ,
           )
           ->getQuery()
           ->getResult();
-          
+          $ouevre =[];
+          if ($request->get('Ouevre')!="") {
+              # code...
+         
           $ouevre =$qb->select('Ouevre')->from('App\Entity\Ouevre', 'Ouevre')
           ->where( 
                    $qb->expr()->like('Ouevre.Titre', $qb->expr()->literal('%' . $request->get('Ouevre') . '%')),
                    )
           ->getQuery()
           ->getResult();
+        }
 
+
+        $acteur =[];
+        if ($request->get('Acteur')!="") {
           $acteur =$qb->select('Acteur')->from('App\Entity\Acteur', 'Acteur')
           ->where( 
+            $qb->expr()->orX(
                    $qb->expr()->like('Acteur.nom', $qb->expr()->literal('%' . $request->get('Acteur') . '%')),
                    $qb->expr()->like('Acteur.prenom', $qb->expr()->literal('%' . $request->get('Acteur') . '%')),
                    $qb->expr()->like('Acteur.email', $qb->expr()->literal('%' . $request->get('Acteur') . '%')),
+                   )
           )
           ->getQuery()
-          ->getResult();
+          ->getResult();}
 
 
     

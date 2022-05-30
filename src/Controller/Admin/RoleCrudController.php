@@ -6,6 +6,7 @@ use App\Entity\Role;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class RoleCrudController extends AbstractCrudController
@@ -15,10 +16,12 @@ class RoleCrudController extends AbstractCrudController
         return Role::class;
     }
 
-  
+    
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('nom_de_role');
+        yield AssociationField::new('Episode');
+       yield AssociationField::new('Acteurs');
         
        
         $created_at = DateTimeField::new('created_at');
@@ -40,5 +43,5 @@ class RoleCrudController extends AbstractCrudController
                         yield $deleted_at;
                     }}
     }
-   
+    
 }

@@ -46,15 +46,23 @@ class Role
      */
     private $deleted_at;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Episode::class, mappedBy="Role")
-     */
-    private $episodes;
+  
 
     /**
-     * @ORM\ManyToMany(targetEntity=Acteur::class, inversedBy="roles")
+     * @ORM\ManyToOne(targetEntity=Acteur::class, inversedBy="roles")
      */
-    private $acteur;
+    private $Acteurs;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Episode::class, inversedBy="roles")
+     */
+    private $Episode;
+
+    
+
+   
+
+    
 
     public function __construct()
     {
@@ -116,54 +124,32 @@ class Role
         return $this;
     }
 
-    /**
-     * @return Collection<int, Episode>
-     */
-    public function getEpisodes(): Collection
+  
+
+    public function getActeurs(): ?Acteur
     {
-        return $this->episodes;
+        return $this->Acteurs;
     }
 
-    public function addEpisode(Episode $episode): self
+    public function setActeurs(?Acteur $Acteurs): self
     {
-        if (!$this->episodes->contains($episode)) {
-            $this->episodes[] = $episode;
-            $episode->addRole($this);
-        }
+        $this->Acteurs = $Acteurs;
 
         return $this;
     }
 
-    public function removeEpisode(Episode $episode): self
+    public function getEpisode(): ?Episode
     {
-        if ($this->episodes->removeElement($episode)) {
-            $episode->removeRole($this);
-        }
+        return $this->Episode;
+    }
+
+    public function setEpisode(?Episode $Episode): self
+    {
+        $this->Episode = $Episode;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Acteur>
-     */
-    public function getActeur(): Collection
-    {
-        return $this->acteur;
-    }
+    
 
-    public function addActeur(Acteur $acteur): self
-    {
-        if (!$this->acteur->contains($acteur)) {
-            $this->acteur[] = $acteur;
-        }
-
-        return $this;
-    }
-
-    public function removeActeur(Acteur $acteur): self
-    {
-        $this->acteur->removeElement($acteur);
-
-        return $this;
-    }
 }

@@ -61,7 +61,7 @@ class Acteur
     private $image;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="acteur")
+     * @ORM\OneToMany(targetEntity=Role::class, mappedBy="Acteurs")
      */
     private $roles;
 
@@ -173,7 +173,7 @@ class Acteur
     {
         if (!$this->roles->contains($role)) {
             $this->roles[] = $role;
-            $role->addActeur($this);
+            $role->setActeurs($this);
         }
 
         return $this;
@@ -182,9 +182,17 @@ class Acteur
     public function removeRole(Role $role): self
     {
         if ($this->roles->removeElement($role)) {
-            $role->removeActeur($this);
+            // set the owning side to null (unless already changed)
+            if ($role->getActeurs() === $this) {
+                $role->setActeurs(null);
+            }
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom." ".$this->prenom;
     }
 }
