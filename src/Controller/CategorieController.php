@@ -49,12 +49,16 @@ class CategorieController extends AbstractController
         $search=$request->get('search');
         $entityManager = $this->getDoctrine()->getManager();
         $qb = $entityManager->createQueryBuilder();
-        $episode = $qb->select('n')->from('App\Entity\Episode', 'n')
+        $episode = $qb->select('n')->from('App\Entity\Episode', 'n')->leftJoin('n.Id_ouevre', 'ouevre')->leftJoin('n.roles', 'r')->leftJoin('r.Acteurs', 'acteur')
           ->where( $qb->expr()->orX(
 
                    $qb->expr()->like('n.Titre', $qb->expr()->literal('%' . $search . '%')),
                    $qb->expr()->like('n.langue', $qb->expr()->literal('%' . $search . '%')),
-                   $qb->expr()->like('n.Resume', $qb->expr()->literal('%' . $search . '%')),    
+                   $qb->expr()->like('n.Resume', $qb->expr()->literal('%' . $search . '%')),  
+                   
+                    $qb->expr()->like('acteur.nom', $qb->expr()->literal('%' . $search . '%')),
+                    $qb->expr()->like('acteur.prenom', $qb->expr()->literal('%' . $search . '%')),
+                     
                    )
           )
           ->getQuery()

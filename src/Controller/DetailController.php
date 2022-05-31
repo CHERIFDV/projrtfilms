@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Avis;
 use App\Entity\Episode;
 use App\Repository\FavorieRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,5 +31,30 @@ class DetailController extends AbstractController
         return $this->render('detail/anime-details.html.twig', [
             'controller_name' => 'DetailController','episode' =>$episode,'Liked'=>empty($liked),
         ]);
+    }
+
+
+     /**
+     * @Route("/detail/vote/{i}/{episode_id}", name="app_avis" ,methods={"get"})
+     */
+    public function vote(UserInterface $user,int $i,int $episode_id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $qb = $entityManager->createQueryBuilder();
+        $episode = $qb->select('Episode')->from('App\Entity\Episode', 'Episode')
+          ->where( 
+            $qb->expr()->eq('Episode.id', $episode_id),
+          )
+          ->getQuery()
+          ->getResult();
+        $Avis = new Avis();
+        $Avis->setUser($user);
+        $Avis->setEpisode($episode[0]);
+        $Avis->setNbEtoil($i);
+        $Avis->setCreatedAt(new \DateTimeImmutable());
+        $entityManager->persist($Avis);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_detail', ['id' => $episode[0]->getId()]);
+        
     }
 }

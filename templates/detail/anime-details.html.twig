@@ -74,16 +74,24 @@
                                 {% endfor %}
                                 
                                 {%  if myVot > 0 %} 
-                                {% set Vot  = (myVot / myVal) %}  
-                                {%  else  %}
-                                {% set Vot  = 0 %}
-                                {%  endif  %}
+                                {% set Vot  = (myVot / myVal) %} 
+
                                  {% for i in 1.. Vot   %}
                                     <a href="#"><i class="fa fa-star"></i></a>
                                 {% endfor %}
+                                <!--
                                 {% if 1 == 1  %}
                                     <a href="#"><i class="fa fa-star-half-o"></i></a>
-                                    {% endif %}
+                                    {% endif %}--> 
+
+                                {%  else  %}
+                                {% for i in 1.. 5   %}
+                                    <a href="/detail/vote/{{i}}/{{episode.id}}"><i class="fa fa-star-o"></i></a>
+                                {% endfor %}
+
+                                {% set Vot  = 0 %}
+                                {%  endif  %}
+                                
                                 </div>
                                 <span>{{ Vot }} Votes</span>
                             </div>
