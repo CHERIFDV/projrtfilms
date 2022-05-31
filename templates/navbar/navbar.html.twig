@@ -36,11 +36,14 @@
                             {% if app.user %}
                                <div class="btn-group">
                                     <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                 <span class="icon_profile"></span> {{ app.user.nom }} {{ app.user.prenom }}
+                                                 <span class="icon_profile"></span> {{ app.user.nom }} 
                                     </button>
                                     <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" style="color:black" href="#">Compte</a></li>
-                                    <li><a class="dropdown-item" style="color:black"  href="favorise">Favorise </a></li>
+                                    <li><a class="dropdown-item" style="color:black"  href="{{ path('app_favorise_get') }}">Favorise </a></li>
+                                    {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                    <li><a class="dropdown-item" style="color:black"  href="{{ path('admin') }}">admin </a></li>
+                                    {% endif %}
                                     <li> <a class="dropdown-item"  href="{{ path('app_logout') }}" style="color:black" >Logout</a> </li>
                                      </ul>
                                     </div>

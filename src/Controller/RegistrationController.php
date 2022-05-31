@@ -47,8 +47,10 @@ class RegistrationController extends AbstractController
         $image->move(
             $this->getParameter('brochures_directory_image'),
             $fichier
-        );}
+        );
         $user->setImage($fichier);
+    }
+        
 
 
 
